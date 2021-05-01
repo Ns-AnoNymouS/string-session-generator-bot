@@ -24,7 +24,7 @@ Generate Pyrogram String Session Using this bot.
 - [Anonymous](https://github.com/Ns-AnoNymouS)
 
 ### Note:
-This was First made by [Krishna Singhal](https://github.com/Krishna-Singhal). And I am very lazy to add README.md for this report so taken the README.MD from [Abir Hasan](https://github.com/AbirHasan2005). I made small changes in this report to make easy for the beginners to deploy.
+This was First made by [Krishna Singhal](https://github.com/Krishna-Singhal). And I am very lazy to add README.md for this repo so taken the README.MD from [Abir Hasan](https://github.com/AbirHasan2005). I made small changes in this report to make easy for the beginners to deploy.
 
 ## Follow on:
 <p align="left">
