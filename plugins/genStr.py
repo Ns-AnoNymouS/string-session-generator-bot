@@ -139,7 +139,7 @@ async def generate_str(c, m):
         return
     except SessionPasswordNeeded:
         try:
-            two_step_code = await c(
+            two_step_code = await c.ask(
                 chat_id=m.chat.id, 
                 text="`🔐 This account have two-step verification code.\nPlease enter your second factor authentication code.`\nPress /cancel to Cancel.",
                 timeout=300
