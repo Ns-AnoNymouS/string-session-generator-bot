@@ -31,8 +31,7 @@ PHONE_NUMBER_TEXT = (
 
 @Client.on_message(filters.private & filters.command("start"))
 async def generate_str(c, m):
-    get_api_id = await Client.ask(
-        self=c,
+    get_api_id = await c.ask(
         chat_id=m.chat.id,
         text=API_TEXT.format(m.from_user.mention(style='md')),
         filters=filters.text
@@ -49,8 +48,7 @@ async def generate_str(c, m):
         await m.reply("**--🛑 API ID Invalid 🛑--**\nPress /start to create again.")
         return
 
-    get_api_hash = await Client.ask(
-        self=c,
+    get_api_hash = await c.ask(
         chat_id=m.chat.id, 
         text=HASH_TEXT,
         filters=filters.text
@@ -78,8 +76,7 @@ async def generate_str(c, m):
         await client.disconnect()
         await client.connect()
     while True:
-        get_phone_number = await Client.ask(
-            self=c,
+        get_phone_number = await c.ask(
             chat_id=m.chat.id,
             text=PHONE_NUMBER_TEXT
         )
@@ -89,8 +86,7 @@ async def generate_str(c, m):
         await get_phone_number.delete()
         await get_phone_number.request.delete()
 
-        confirm = await Client.ask(
-            self=c,
+        confirm = await c.ask(
             chat_id=m.chat.id,
             text=f'🤔 Is `{phone_number}` correct? (y/n): \n\ntype: `y` (If Yes)\ntype: `n` (If No)'
         )
@@ -119,8 +115,7 @@ async def generate_str(c, m):
             "call": "Phone call 📱",
             "flash_call": "phone flash call 📲"
         }[code.type]
-        otp = await Client.ask(
-            self=c,
+        otp = await c.ask(
             chat_id=m.chat.id,
             text=(f"I had sent an OTP to the number `{phone_number}` through {sent_type}\n\n"
                   "Please enter the OTP in the format `1 2 3 4 5` __(provied white space between numbers)__\n\n"
@@ -144,8 +139,7 @@ async def generate_str(c, m):
         return
     except SessionPasswordNeeded:
         try:
-            two_step_code = await Client.ask(
-                self=c,
+            two_step_code = await c(
                 chat_id=m.chat.id, 
                 text="`🔐 This account have two-step verification code.\nPlease enter your second factor authentication code.`\nPress /cancel to Cancel.",
                 timeout=300
