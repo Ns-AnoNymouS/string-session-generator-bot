@@ -171,7 +171,10 @@ async def generate_str(c, m):
     except Exception as e:
         await c.send_message(m.chat.id ,f"**⚠️ ERROR:** `{str(e)}`")
         return
-    
+    try:
+        await client.disconnect()
+    execpt Exception as e:
+        print(e)
 
 @Client.on_message(filters.private & filters.command("help"))
 async def help(c, m):
