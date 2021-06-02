@@ -173,7 +173,7 @@ async def generate_str(c, m):
         return
     try:
         await client.disconnect()
-    execpt Exception as e:
+    except Exception as e:
         print(e)
 
 @Client.on_message(filters.private & filters.command("help"))
