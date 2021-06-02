@@ -163,7 +163,6 @@ async def generate_str(c, m):
     try:
         session_string = await client.export_session_string()
         await client.send_message("me", f"**Your String Session 👇**\n\n`{session_string}`\n\nThanks For using {(await c.get_me()).mention(style='md')}")
-        await client.log_out()
         text = "✅ Successfully Generated Your String Session and sent to you saved messages.\nCheck your saved messages or Click on Below Button."
         reply_markup = InlineKeyboardMarkup(
             [[InlineKeyboardButton(text="String Session ↗️", url=f"tg://openmessage?user_id={m.chat.id}")]]
@@ -172,7 +171,10 @@ async def generate_str(c, m):
     except Exception as e:
         await c.send_message(m.chat.id ,f"**⚠️ ERROR:** `{str(e)}`")
         return
-
+    try:
+        await client.log_out()
+    except:
+        pass
 
 @Client.on_message(filters.private & filters.command("help"))
 async def help(c, m):
