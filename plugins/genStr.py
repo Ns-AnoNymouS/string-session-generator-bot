@@ -13,6 +13,8 @@ from pyrogram.errors import (
     PhoneCodeInvalid, PhoneCodeExpired
 )
 
+API_ID = int(os.environ.get("API_ID", 0))
+API_HASH = os.environ.get("API_HASH", None)
 
 API_TEXT = """🙋‍♂ Hi {},
 
@@ -32,7 +34,7 @@ PHONE_NUMBER_TEXT = (
 @Client.on_message(filters.private & filters.command("start"))
 async def generate_str(c, m):
     try:
-        client = Client("my_account", api_id=api_id, api_hash=api_hash)
+        client = Client("my_account", api_id=API_ID, api_hash=API_HASH)
     except Exception as e:
         await c.send_message(m.chat.id ,f"**🛑 ERROR: 🛑** `{str(e)}`\nPress /start to create again.")
         return
@@ -138,10 +140,6 @@ async def generate_str(c, m):
     except Exception as e:
         await c.send_message(m.chat.id ,f"**⚠️ ERROR:** `{str(e)}`")
         return
-    try:
-        await client.disconnect()
-    except Exception as e:
-        print(e)
 
 @Client.on_message(filters.private & filters.command("help"))
 async def help(c, m):
