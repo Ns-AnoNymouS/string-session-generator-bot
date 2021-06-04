@@ -31,39 +31,6 @@ PHONE_NUMBER_TEXT = (
 
 @Client.on_message(filters.private & filters.command("start"))
 async def generate_str(c, m):
-    get_api_id = await c.ask(
-        chat_id=m.chat.id,
-        text=API_TEXT.format(m.from_user.mention(style='md')),
-        filters=filters.text
-    )
-    api_id = get_api_id.text
-    if await is_cancel(m, api_id):
-        return
-
-    await get_api_id.delete()
-    await get_api_id.request.delete()
-    try:
-        check_api = int(api_id)
-    except Exception:
-        await m.reply("**--🛑 API ID Invalid 🛑--**\nPress /start to create again.")
-        return
-
-    get_api_hash = await c.ask(
-        chat_id=m.chat.id, 
-        text=HASH_TEXT,
-        filters=filters.text
-    )
-    api_hash = get_api_hash.text
-    if await is_cancel(m, api_hash):
-        return
-
-    await get_api_hash.delete()
-    await get_api_hash.request.delete()
-
-    if not len(api_hash) >= 30:
-        await m.reply("--**🛑 API HASH Invalid 🛑**--\nPress /start to create again.")
-        return
-
     try:
         client = Client("my_account", api_id=api_id, api_hash=api_hash)
     except Exception as e:
