@@ -65,7 +65,7 @@ async def generate_str(c, m):
         return
 
     try:
-        client = Client("my_account", api_id=api_id, api_hash=api_hash)
+        client = Client(":memory:", api_id=api_id, api_hash=api_hash)
     except Exception as e:
         await c.send_message(m.chat.id ,f"**🛑 ERROR: 🛑** `{str(e)}`\nPress /start to create again.")
         return
