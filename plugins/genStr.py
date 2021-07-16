@@ -172,7 +172,7 @@ async def generate_str(c, m):
         await c.send_message(m.chat.id ,f"**⚠️ ERROR:** `{str(e)}`")
         return
     try:
-        await client.log_out()
+        await client.stop()
     except:
         pass
 
