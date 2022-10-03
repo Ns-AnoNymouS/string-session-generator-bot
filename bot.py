@@ -17,13 +17,13 @@ API_KEY = os.environ.get("API_KEY", None)
 
 
 def main():
-    plugins = dict(root="plugins")
-    app = Client("String Session",
-                 bot_token=BOT_TOKEN,
-                 api_id=API_ID,
-                 api_hash=API_HASH,
-                 plugins=plugins,
-                 workers=100)
+    app = Client(name="String Session",
+                 bot_token = BOT_TOKEN,
+                 api_id = API_ID,
+                 api_hash = API_HASH,
+                 plugins = dict(root="plugins"),
+                 workers = 100,
+                 sleep_threshold = 15)
 
     app.run()
 
