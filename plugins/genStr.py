@@ -60,7 +60,7 @@ async def generate_str(c, m):
     await get_api_hash.delete()
     await get_api_hash.request.delete()
 
-    if not len(api_hash) >= 30:
+    if len(api_hash) < 30:
         await m.reply("--**🛑 API HASH Invalid 🛑**--\nPress /start to create again.")
         return
 
