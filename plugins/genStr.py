@@ -45,8 +45,7 @@ async def generate_str(c, m):
     try:
         check_api = int(api_id)
     except Exception:
-        await m.reply("**--🛑 API ID Invalid 🛑--**\nPress /start to create again.")
-        return
+        return await m.reply("**--🛑 API ID Invalid 🛑--**\nPress /start to create again.")
 
     get_api_hash = await c.ask(
         chat_id=m.chat.id, 
@@ -60,15 +59,13 @@ async def generate_str(c, m):
     await get_api_hash.delete()
     await get_api_hash.request.delete()
 
-    if not len(api_hash) >= 30:
-        await m.reply("--**🛑 API HASH Invalid 🛑**--\nPress /start to create again.")
-        return
+    if len(api_hash) < 30:
+        return await m.reply("--**🛑 API HASH Invalid 🛑**--\nPress /start to create again.")
 
     try:
         client = Client(":memory:", api_id=api_id, api_hash=api_hash)
     except Exception as e:
-        await c.send_message(m.chat.id ,f"**🛑 ERROR: 🛑** `{str(e)}`\nPress /start to create again.")
-        return
+        return await c.send_message(m.chat.id ,f"**🛑 ERROR: 🛑** `{str(e)}`\nPress /start to create again.")
 
     try:
         await client.connect()
@@ -100,14 +97,11 @@ async def generate_str(c, m):
         code = await client.send_code(phone_number)
         await asyncio.sleep(1)
     except FloodWait as e:
-        await m.reply(f"__Sorry to say you that you have floodwait of {e.x} Seconds 😞__")
-        return
+        return await m.reply(f"__Sorry to say you that you have floodwait of {e.x} Seconds 😞__")
     except ApiIdInvalid:
-        await m.reply("🕵‍♂ The API ID or API HASH is Invalid.\n\nPress /start to create again.")
-        return
+        return await m.reply("🕵‍♂ The API ID or API HASH is Invalid.\n\nPress /start to create again.")
     except PhoneNumberInvalid:
-        await m.reply("☎ Your Phone Number is Invalid.`\n\nPress /start to create again.")
-        return
+        return await m.reply("☎ Your Phone Number is Invalid.`\n\nPress /start to create again.")
 
     try:
         sent_type = {"app": "Telegram App 💌",
@@ -122,8 +116,7 @@ async def generate_str(c, m):
                   "If Bot not sending OTP then try /start the Bot.\n"
                   "Press /cancel to Cancel."), timeout=300)
     except TimeoutError:
-        await m.reply("**⏰ TimeOut Error:** You reached Time limit of 5 min.\nPress /start to create again.")
-        return
+        return await m.reply("**⏰ TimeOut Error:** You reached Time limit of 5 min.\nPress /start to create again.")
     if await is_cancel(m, otp.text):
         return
     otp_code = otp.text
@@ -132,11 +125,9 @@ async def generate_str(c, m):
     try:
         await client.sign_in(phone_number, code.phone_code_hash, phone_code=' '.join(str(otp_code)))
     except PhoneCodeInvalid:
-        await m.reply("**📵 Invalid Code**\n\nPress /start to create again.")
-        return 
+        return await m.reply("**📵 Invalid Code**\n\nPress /start to create again.") 
     except PhoneCodeExpired:
-        await m.reply("**⌚ Code is Expired**\n\nPress /start to create again.")
-        return
+        return await m.reply("**⌚ Code is Expired**\n\nPress /start to create again.")
     except SessionPasswordNeeded:
         try:
             two_step_code = await c.ask(
@@ -145,8 +136,7 @@ async def generate_str(c, m):
                 timeout=300
             )
         except TimeoutError:
-            await m.reply("**⏰ TimeOut Error:** You reached Time limit of 5 min.\nPress /start to create again.")
-            return
+            return await m.reply("**⏰ TimeOut Error:** You reached Time limit of 5 min.\nPress /start to create again.")
         if await is_cancel(m, two_step_code.text):
             return
         new_code = two_step_code.text
@@ -155,11 +145,9 @@ async def generate_str(c, m):
         try:
             await client.check_password(new_code)
         except Exception as e:
-            await m.reply(f"**⚠️ ERROR:** `{str(e)}`")
-            return
+            return await m.reply(f"**⚠️ ERROR:** `{str(e)}`")
     except Exception as e:
-        await c.send_message(m.chat.id ,f"**⚠️ ERROR:** `{str(e)}`")
-        return
+        return await c.send_message(m.chat.id ,f"**⚠️ ERROR:** `{str(e)}`")
     try:
         session_string = await client.export_session_string()
         await client.send_message("me", f"**Your String Session 👇**\n\n`{session_string}`\n\nThanks For using {(await c.get_me()).mention(style='md')}")
@@ -169,8 +157,7 @@ async def generate_str(c, m):
         )
         await c.send_message(m.chat.id, text, reply_markup=reply_markup)
     except Exception as e:
-        await c.send_message(m.chat.id ,f"**⚠️ ERROR:** `{str(e)}`")
-        return
+        return await c.send_message(m.chat.id ,f"**⚠️ ERROR:** `{str(e)}`")
     try:
         await client.stop()
     except:
